@@ -1,4 +1,6 @@
-﻿using E_Learn.Infrastructure.Database.Context;
+﻿using CloudinaryDotNet;
+using dotenv.net;
+using E_Learn.Infrastructure.Database.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Learn.Infrastructure.IoC
@@ -7,13 +9,15 @@ namespace E_Learn.Infrastructure.IoC
     {
 
         private WebApplicationBuilder _builder;
-        private string? connectionString;
+        private string connectionString;
+
+        private IDictionary<string, string> env = DotEnv.Read();
 
 
         public DependecyInjection(WebApplicationBuilder builder)
         {
             _builder = builder;
-            connectionString = _builder.Configuration.GetConnectionString("default");
+            connectionString = env["DATABASE_URL"];
         }
 
         public static DependecyInjection builder(WebApplicationBuilder builder)
@@ -25,8 +29,6 @@ namespace E_Learn.Infrastructure.IoC
         {
             _builder.Services
                  .AddDbContext<Context>(options => options.UseNpgsql(connectionString));
-
-            Console.WriteLine(connectionString);
             return this;
 
         }
@@ -34,7 +36,6 @@ namespace E_Learn.Infrastructure.IoC
 
         public DependecyInjection services()
         {
-
             return this;
         }
     }

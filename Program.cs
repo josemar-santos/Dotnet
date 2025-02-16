@@ -1,3 +1,6 @@
+using CloudinaryDotNet;
+using dotenv.net;
+using E_Learn.Common.Infrastructure;
 using E_Learn.Infrastructure.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +16,7 @@ DependecyInjection.builder(builder)
     .context()
     .services();
         
+DotEnv.Load();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
